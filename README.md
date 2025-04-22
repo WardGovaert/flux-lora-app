@@ -21,7 +21,12 @@ flux-lora-app/
 │   │   │   └── gcp/config.py
 │   │   └── presentation/
 │   │       └── job_controller.py
-│   └── app.py
+│   ├── app.py
+│   └── tests/
+│       ├── __init__.py
+│       ├── test_job_service.py
+│       ├── test_aitoolkit_adapter.py
+│       └── test_job_controller.py
 ├── frontend/
 │   ├── package.json
 │   ├── tsconfig.json
@@ -31,8 +36,11 @@ flux-lora-app/
 │       ├── components/
 │       │   ├── JobForm.tsx
 │       │   └── JobList.tsx
-│       └── services/
-│           └── api.ts
+│       ├── services/
+│       │   └── api.ts
+│       └── __tests__/
+│           ├── JobForm.test.tsx
+│           └── JobList.test.tsx
 └── terraform/
     └── main.tf
 ```
@@ -43,6 +51,9 @@ flux-lora-app/
 - **Frontend**: React + TypeScript + Tailwind CSS; reactive form for job creation and live job list.
 - **Training Adapter**: Integrates Ostris AI-Toolkit CLI or GCP Vertex AI CustomJob for LoRA training.
 - **Infrastructure**: Terraform scripts to provision GCP compute instances in Europe-West1 (Belgium) region for parallel training.
+- **Tests**:
+  - Python backend tests using `pytest`
+  - React frontend tests using `@testing-library/react`
 
 ## Prerequisites
 
@@ -75,6 +86,11 @@ uvicorn app:app --reload
 ```
 API endpoint: `http://localhost:8000/jobs`
 
+To run tests:
+```bash
+pytest tests/
+```
+
 ### 3. Frontend
 ```bash
 cd frontend
@@ -84,12 +100,17 @@ npm run dev
 ```
 Dev server: `http://localhost:3000`
 
+To run tests:
+```bash
+npm test
+```
+
 ### 4. Git & GitHub
 Ensure `.gitignore` is present to exclude `node_modules/`, `__pycache__/`, `.terraform/`, and sensitive files.
 ```bash
 git add .
 git commit -m "Initial project commit"
-git remote add origin git@github.com:<your-username>/flux-lora-app.git
+git remote add origin git@github.com:WardGovaert/flux-lora-app.git
 git push -u origin main
 ```
 
