@@ -3,8 +3,8 @@ from src.domain.job import Job
 
 # Initialize AI Platform
 aiplatform.init(
-    project="YOUR_GCP_PROJECT_ID",
-    location="us-central1"
+    project="pure-courier-453515-t8",
+    location="europe-west1"
 )
 
 def submit_training_job(job_data: dict):
