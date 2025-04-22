@@ -1,32 +1,28 @@
 provider "google" {
-  project = "pure-courier-453515-t8"
+  project = var.project
   region  = "europe-west1"
+  zone    = "europe-west1-b"
 }
 
-resource "google_compute_instance" "trainer" {
+resource "google_compute_instance" "lora_trainer" {
   name         = "lora-trainer"
-  machine_type = "n1-standard-8"
-  zone         = "europe-west1-a"
+  machine_type = "n1-standard-4"
+  zone         = "europe-west1-b"
 
   boot_disk {
-    initialize_params { image = "ubuntu-2004-focal" }
+    initialize_params {
+      image = "debian-cloud/debian-12"
+    }
   }
 
-  guest_accelerator {
-    type  = "nvidia-tesla-t4"
-    count = 1
+  network_interface {
+    network = "default"
+    access_config {}
   }
 
-  metadata = { 
-    startup-script = <<-EOT
-      #!/bin/bash
-      apt-get update
-      apt-get install -y docker.io
-      docker run -d -p 8000:8000 your-docker-image
-    EOT
-  }
-
-  service_account {
-    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-  }
+  metadata_startup_script = <<-EOT
+    #!/bin/bash
+    echo "Starting LoRA training setup..."
+    # Add your startup commands here
+  EOT
 }
